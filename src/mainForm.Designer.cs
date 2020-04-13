@@ -1,4 +1,4 @@
-﻿namespace nlCryptoLatin
+﻿namespace nlCrypto
 {
     partial class mainForm
     {

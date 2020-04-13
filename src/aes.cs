@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace nlCryptoLatin
+namespace nlCrypto
 {
 public class AesClass
 {

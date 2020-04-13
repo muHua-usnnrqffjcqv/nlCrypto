@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{90F18817-F1D0-49FA-BD0E-5B79BBAFAC95}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>nlCryptoLatin</RootNamespace>
-    <AssemblyName>nlCryptoLatin</AssemblyName>
+    <RootNamespace>nlCrypto</RootNamespace>
+    <AssemblyName>nlCrypto</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,7 +33,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -49,16 +49,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>AAA46ABF65C5A027DA6277D133048433B08FBAF6</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>886C415318D14CA22B7BE15977DB94EA8910779E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>usnnrqffjcqv.pfx</ManifestKeyFile>
+    <ManifestKeyFile>muhua.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>1-4.ico</ApplicationIcon>

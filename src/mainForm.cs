@@ -6,7 +6,7 @@ using Clipboard = System.Windows.Forms.Clipboard;
 using DataFormats = System.Windows.Forms.DataFormats;
 using IDataObject = System.Windows.Forms.IDataObject;
 
-namespace nlCryptoLatin
+namespace nlCrypto
 {
 public partial class mainForm : Form
 {
@@ -35,7 +35,7 @@ public partial class mainForm : Form
         }
 
         // 加密后的文本进行nlb64混淆
-        ioText.Text = nlBase64.NlbEncode(b64text, useLongWord.Checked);
+        ioText.Text = nlCoding.nlBase64.NlbEncode(b64text, useLongWord.Checked);
         // 放到剪辑版
         if (useClipBoard.Checked == true) {
             Clipboard.SetDataObject(ioText.Text);
@@ -56,9 +56,9 @@ public partial class mainForm : Form
             byte[] encryptionBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(passwordText.Text));
             string EncryptionStr = Convert.ToBase64String(encryptionBytes);
             // 密码进行MD5之后取前十六位用于AES解密
-            ioText.Text = AesClass.AesDecrypt(nlBase64.nlbDecode(trimText), EncryptionStr.Substring(0, 16));
+            ioText.Text = AesClass.AesDecrypt(nlCoding.nlBase64.nlbDecode(trimText), EncryptionStr.Substring(0, 16));;
         } else {
-            ioText.Text = Encoding.Default.GetString(Convert.FromBase64String(nlBase64.nlbDecode(trimText)));
+            ioText.Text = Encoding.Default.GetString(Convert.FromBase64String(nlCoding.nlBase64.nlbDecode(trimText)));
             // 直接输出
         }
 
