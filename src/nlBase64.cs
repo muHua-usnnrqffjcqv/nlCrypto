@@ -7,12 +7,13 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 
 namespace nlCoding
 {
     internal class nlBase64
     {
-        public static string NlbEncode(string inText, bool longWordUsing)
+        public string NlbEncode(string inText, bool longWordUsing)
         // inText是输入文本 loogWordUsing是是否使用长表
         {
             // info.FullName就是临时目录的字符串
@@ -96,7 +97,7 @@ namespace nlCoding
             }
             return stringBuilder.ToString();
         }
-        public static string nlbDecode(string inText)
+        public string nlbDecode(string inText)
         // inText为输入文本
         {
             // info.FullName就是临时目录的字符串
@@ -126,6 +127,8 @@ namespace nlCoding
             return stringBuilder.ToString();
             // 返回解密结果
         }
+
+        public 
     }
 
     public class iniFile
@@ -158,4 +161,5 @@ namespace nlCoding
         }
 
     }
+
 }
