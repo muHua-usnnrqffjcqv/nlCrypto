@@ -41,13 +41,13 @@
             this.enCode = new System.Windows.Forms.Button();
             this.ioText = new System.Windows.Forms.TextBox();
             this.ptpSecPage = new System.Windows.Forms.TabPage();
-            this.ptpAbout = new System.Windows.Forms.Label();
-            this.rsaKeyGen = new System.Windows.Forms.Button();
-            this.privateKeySel = new System.Windows.Forms.Button();
-            this.publicKeySel = new System.Windows.Forms.Button();
-            this.tempKeyGen = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tempKeyDecode = new System.Windows.Forms.Button();
+            this.outputBox = new System.Windows.Forms.TextBox();
+            this.tempKeyGen = new System.Windows.Forms.Button();
+            this.publicKeySel = new System.Windows.Forms.Button();
+            this.privateKeySel = new System.Windows.Forms.Button();
+            this.rsaKeyGen = new System.Windows.Forms.Button();
+            this.ptpAbout = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.cryptoPage.SuspendLayout();
             this.ptpSecPage.SuspendLayout();
@@ -178,7 +178,7 @@
             // ptpSecPage
             // 
             this.ptpSecPage.Controls.Add(this.tempKeyDecode);
-            this.ptpSecPage.Controls.Add(this.textBox1);
+            this.ptpSecPage.Controls.Add(this.outputBox);
             this.ptpSecPage.Controls.Add(this.tempKeyGen);
             this.ptpSecPage.Controls.Add(this.publicKeySel);
             this.ptpSecPage.Controls.Add(this.privateKeySel);
@@ -192,36 +192,32 @@
             this.ptpSecPage.Text = "ptpSec";
             this.ptpSecPage.UseVisualStyleBackColor = true;
             // 
-            // ptpAbout
+            // tempKeyDecode
             // 
-            this.ptpAbout.AutoSize = true;
-            this.ptpAbout.Location = new System.Drawing.Point(39, 27);
-            this.ptpAbout.Name = "ptpAbout";
-            this.ptpAbout.Size = new System.Drawing.Size(347, 24);
-            this.ptpAbout.TabIndex = 0;
-            this.ptpAbout.Text = "Need to use the method and introduction can double-click \r\nto open the introducti" +
-    "on page";
-            this.ptpAbout.DoubleClick += new System.EventHandler(this.ptpAbout_DoubleClick);
+            this.tempKeyDecode.Location = new System.Drawing.Point(41, 209);
+            this.tempKeyDecode.Name = "tempKeyDecode";
+            this.tempKeyDecode.Size = new System.Drawing.Size(223, 23);
+            this.tempKeyDecode.TabIndex = 6;
+            this.tempKeyDecode.Text = "Decrypt temporary communication key";
+            this.tempKeyDecode.UseVisualStyleBackColor = true;
+            this.tempKeyDecode.Click += new System.EventHandler(this.tempKeyDecode_Click);
             // 
-            // rsaKeyGen
+            // outputBox
             // 
-            this.rsaKeyGen.Location = new System.Drawing.Point(41, 66);
-            this.rsaKeyGen.Name = "rsaKeyGen";
-            this.rsaKeyGen.Size = new System.Drawing.Size(223, 23);
-            this.rsaKeyGen.TabIndex = 1;
-            this.rsaKeyGen.Text = "Public and private key generation";
-            this.rsaKeyGen.UseVisualStyleBackColor = true;
-            this.rsaKeyGen.Click += new System.EventHandler(this.rsaKeyGen_Click);
+            this.outputBox.Location = new System.Drawing.Point(41, 182);
+            this.outputBox.Name = "outputBox";
+            this.outputBox.Size = new System.Drawing.Size(223, 21);
+            this.outputBox.TabIndex = 5;
             // 
-            // privateKeySel
+            // tempKeyGen
             // 
-            this.privateKeySel.Location = new System.Drawing.Point(41, 95);
-            this.privateKeySel.Name = "privateKeySel";
-            this.privateKeySel.Size = new System.Drawing.Size(223, 23);
-            this.privateKeySel.TabIndex = 2;
-            this.privateKeySel.Text = "Private key select";
-            this.privateKeySel.UseVisualStyleBackColor = true;
-            this.privateKeySel.Click += new System.EventHandler(this.privateKeySel_Click);
+            this.tempKeyGen.Location = new System.Drawing.Point(41, 153);
+            this.tempKeyGen.Name = "tempKeyGen";
+            this.tempKeyGen.Size = new System.Drawing.Size(223, 23);
+            this.tempKeyGen.TabIndex = 4;
+            this.tempKeyGen.Text = "Generate temp communication key";
+            this.tempKeyGen.UseVisualStyleBackColor = true;
+            this.tempKeyGen.Click += new System.EventHandler(this.tempKeyGen_Click);
             // 
             // publicKeySel
             // 
@@ -233,30 +229,36 @@
             this.publicKeySel.UseVisualStyleBackColor = true;
             this.publicKeySel.Click += new System.EventHandler(this.publicKeySel_Click);
             // 
-            // tempKeyGen
+            // privateKeySel
             // 
-            this.tempKeyGen.Location = new System.Drawing.Point(41, 153);
-            this.tempKeyGen.Name = "tempKeyGen";
-            this.tempKeyGen.Size = new System.Drawing.Size(223, 23);
-            this.tempKeyGen.TabIndex = 4;
-            this.tempKeyGen.Text = "Generate temp communication key";
-            this.tempKeyGen.UseVisualStyleBackColor = true;
+            this.privateKeySel.Location = new System.Drawing.Point(41, 95);
+            this.privateKeySel.Name = "privateKeySel";
+            this.privateKeySel.Size = new System.Drawing.Size(223, 23);
+            this.privateKeySel.TabIndex = 2;
+            this.privateKeySel.Text = "Private key select";
+            this.privateKeySel.UseVisualStyleBackColor = true;
+            this.privateKeySel.Click += new System.EventHandler(this.privateKeySel_Click);
             // 
-            // textBox1
+            // rsaKeyGen
             // 
-            this.textBox1.Location = new System.Drawing.Point(41, 182);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(223, 21);
-            this.textBox1.TabIndex = 5;
+            this.rsaKeyGen.Location = new System.Drawing.Point(41, 66);
+            this.rsaKeyGen.Name = "rsaKeyGen";
+            this.rsaKeyGen.Size = new System.Drawing.Size(223, 23);
+            this.rsaKeyGen.TabIndex = 1;
+            this.rsaKeyGen.Text = "Public and private key generation";
+            this.rsaKeyGen.UseVisualStyleBackColor = true;
+            this.rsaKeyGen.Click += new System.EventHandler(this.rsaKeyGen_Click);
             // 
-            // tempKeyDecode
+            // ptpAbout
             // 
-            this.tempKeyDecode.Location = new System.Drawing.Point(41, 209);
-            this.tempKeyDecode.Name = "tempKeyDecode";
-            this.tempKeyDecode.Size = new System.Drawing.Size(223, 23);
-            this.tempKeyDecode.TabIndex = 6;
-            this.tempKeyDecode.Text = "Decrypt temporary communication key";
-            this.tempKeyDecode.UseVisualStyleBackColor = true;
+            this.ptpAbout.AutoSize = true;
+            this.ptpAbout.Location = new System.Drawing.Point(39, 27);
+            this.ptpAbout.Name = "ptpAbout";
+            this.ptpAbout.Size = new System.Drawing.Size(347, 24);
+            this.ptpAbout.TabIndex = 0;
+            this.ptpAbout.Text = "Need to use the method and introduction can double-click \r\nto open the introducti" +
+    "on page";
+            this.ptpAbout.DoubleClick += new System.EventHandler(this.ptpAbout_DoubleClick);
             // 
             // mainForm
             // 
@@ -266,8 +268,8 @@
             this.Controls.Add(this.tabControl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(9999, 9999);
-            this.MinimumSize = new System.Drawing.Size(390, 290);
+            this.MaximumSize = new System.Drawing.Size(450, 360);
+            this.MinimumSize = new System.Drawing.Size(450, 360);
             this.Name = "mainForm";
             this.Text = "nlCryptoLatin4v3";
             this.Activated += new System.EventHandler(this.mainForm_Activated);
@@ -301,7 +303,7 @@
         private System.Windows.Forms.Button privateKeySel;
         private System.Windows.Forms.Button tempKeyGen;
         private System.Windows.Forms.Button tempKeyDecode;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox outputBox;
     }
 }
 

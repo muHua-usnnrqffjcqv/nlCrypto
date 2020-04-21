@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -161,6 +162,71 @@ public partial class mainForm : Form
             {
                 publicKey = openFileDialog.FileName;
                 openFileDialog.FileName = "";
+            }
+        }
+
+        private void tempKeyGen_Click(object sender, EventArgs e)
+        {
+            if (publicKey==null||privateKey==null)
+            {
+                string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+                if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
+                {
+                    // 手动汉化，因为用resx汉化会出多个文件，不好发布
+                    MessageBox.Show("请确认是否加载成功公私钥。");
+                }
+                else
+                {
+                    MessageBox.Show("Make sure that public and private key loaded successfully.");
+                }
+                return;
+            }
+            Random ran = new Random();
+            string encPwd = ran.Next().ToString();
+            StreamReader privateSr = new StreamReader(privateKey);
+            StreamReader publicSr = new StreamReader(publicKey);
+            MD5 md5hash = MD5.Create();
+            outputBox.Text = nlCoding.nlBase64.NlbEncode(rsaThings.encrypt(publicSr.ReadLine(), encPwd) + rsaThings.encrypt(privateSr.ReadLine(), md5.GetMd5Hash(md5hash, encPwd)), useLongWord.Checked);
+            if (useClipBoard.Checked == true)
+            {
+                Clipboard.SetDataObject(outputBox.Text);
+            }
+            passwordText.Text = encPwd;
+        }
+
+        private void tempKeyDecode_Click(object sender, EventArgs e)
+        {
+            if (publicKey == null || privateKey == null)
+            {
+                string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+                if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
+                {
+                    // 手动汉化，因为用resx汉化会出多个文件，不好发布
+                    MessageBox.Show("请确认是否加载成功公私钥。");
+                }
+                else
+                {
+                    MessageBox.Show("Make sure that public and private key loaded successfully.");
+                }
+                return;
+            }
+            StreamReader privateSr = new StreamReader(privateKey);
+            StreamReader publicSr = new StreamReader(publicKey);
+            MD5 md5hash = MD5.Create();
+            string all = nlCoding.nlBase64.nlbDecode(outputBox.Text);
+            MessageBox.Show("1");
+            string right = all.Substring(all.Length - 172, 172);
+            MessageBox.Show(right);
+            string left = all.Substring(0, all.Length - 172);
+            MessageBox.Show(left);
+            //MessageBox.Show(publicSr.ReadLine());
+            if (rsaThings.decrypt(publicSr.ReadLine(), right) == md5.GetMd5Hash(md5hash,left))
+            {
+                
+            }
+            else
+            {
+                MessageBox.Show("1");
             }
         }
     }
