@@ -30,7 +30,7 @@ namespace nlCrypto
         {
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
             byte[] cipherbytes;
-            rsa.FromXmlString(publickey);    
+            rsa.FromXmlString(publickey);
             cipherbytes = rsa.Encrypt(Encoding.UTF8.GetBytes(content), false);
             return Convert.ToBase64String(cipherbytes);
         }

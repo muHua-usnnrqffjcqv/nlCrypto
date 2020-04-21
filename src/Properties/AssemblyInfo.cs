@@ -4,13 +4,13 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("nlCryptoLatin4v3")]
+[assembly: AssemblyTitle("nlCryptoLatin5v1")]
 [assembly: AssemblyDescription("the Crypto program used Latin natural language")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("nlCryptoLatin")]
-[assembly: AssemblyCopyright("GPLv3 E-mail:usnnrqffjcqv@protonmail.com")]
-[assembly: AssemblyTrademark("muHua")]
+[assembly: AssemblyProduct("nlCryptoLatin5v1")]
+[assembly: AssemblyCopyright("GPLv3 on GitHub")]
+[assembly: AssemblyTrademark("muHua E-mail:usnnrqffjcqv@protonmail.com")]
 [assembly: AssemblyCulture("")]
 
 // 将 ComVisible 设置为 false 会使此程序集中的类型
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.4.3.0")]
-[assembly: AssemblyFileVersion("2.4.3.0")]
+[assembly: AssemblyVersion("2.5.1.0")]
+[assembly: AssemblyFileVersion("2.5.1.0")]

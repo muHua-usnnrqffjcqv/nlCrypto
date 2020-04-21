@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="aes.cs" />
-    <Compile Include="md5.cs" />
     <Compile Include="nlBase64.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
