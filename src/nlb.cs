@@ -1,18 +1,18 @@
-﻿
+﻿using System;
+using System.Text;
+using System.IO;
+using System.Security.Cryptography;
+
+// 包含原NLB64和对称加密部份 
 // 使用前请将code.ini放置到%temp%\code.ini中
 // Code.ini得制作格式请参照项目里的code.ini(nlCryptoLatin使用的ini)
+// 版本: nlb64b2
 
-// 版本: nlb64b1
-
-using System;
-using System.IO;
-using System.Text;
-
-namespace nlCoding
+namespace nlCrypto
 {
-    internal class nlBase64
+    public class nlb
     {
-        static public string NlbEncode(string inText, bool longWordUsing)
+        static public string encode(string inText, bool longWordUsing)
         // inText是输入文本 loogWordUsing是是否使用长表
         {
             // info.FullName就是临时目录的字符串
@@ -21,7 +21,7 @@ namespace nlCoding
             // 定义使用的StringBuilder
             StringBuilder stringBuilder = new StringBuilder();
             // iniFile初始化
-            iniFile ini = new iniFile(info.FullName + "\\code.ini");
+            ini ini = new ini(info.FullName + "\\code.ini");
             // b64的文本转到数组
             char[] b64textChar = inText.ToCharArray();
             // 用tempString做中继是为了小写字母双写方便
@@ -96,14 +96,14 @@ namespace nlCoding
             }
             return stringBuilder.ToString();
         }
-        static public string nlbDecode(string inText)
+        static public string decode(string inText)
         // inText为输入文本
         {
             // info.FullName就是临时目录的字符串
             string temp = Environment.GetEnvironmentVariable("TEMP");
             DirectoryInfo info = new DirectoryInfo(temp);
             // iniFile初始化
-            iniFile ini = new iniFile(info.FullName + "\\code.ini");
+            ini ini = new ini(info.FullName + "\\code.ini");
             // 定义使用的StringBuilder
             StringBuilder stringBuilder = new StringBuilder();
             // 辣鸡微软
@@ -126,11 +126,62 @@ namespace nlCoding
             return stringBuilder.ToString();
             // 返回解密结果
         }
-
     }
+    public class nlc
+    {
+        public static string encode(string inText, string inPassword, bool usingCrypto, bool usingLongword)
+        {
+            MD5 md5 = MD5.Create();
+            string b64text;
+            if (usingCrypto == true)
+            // 如果使用加密
+            {
+                byte[] encryptionBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(inPassword));
+                string EncryptionStr = Convert.ToBase64String(encryptionBytes);
+                // 密码进行MD5之后取前十六位用于AES加密
+                b64text = aes.encrypt(inText, EncryptionStr.Substring(0, 16));
+                // 密码和文本进行AES-ECB加密再进行BASE64
+            }
+            else
+            {
+                // 如果不使用加密
+                byte[] inArray = Encoding.Default.GetBytes(inText);
+                b64text = Convert.ToBase64String(inArray);
+                // 直接BASE64输入框文本
+            }
 
-    public class iniFile
-    // INI文件操作类
+            // 加密后的文本进行nlb64混淆
+            inText = nlb.encode(b64text, usingLongword);
+            // 放到剪辑版
+
+            return inText;
+        }
+
+        public static string decode(string inText, string passwordText, bool usingCrypto)
+        {
+            MD5 md5 = MD5.Create();
+            // 去首尾空及换行
+            string trimText = inText.Trim();
+            trimText = trimText.Replace("\r", "");
+            trimText = trimText.Replace("\n", "");
+            // ioText.Text = nlBase64.nlbDecode(ioText.Text);
+            if (usingCrypto== true)
+            // 如果使用解密
+            {
+                byte[] encryptionBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
+                string EncryptionStr = Convert.ToBase64String(encryptionBytes);
+                // 密码进行MD5之后取前十六位用于AES解密
+                inText = aes.decrypt(nlb.decode(trimText), EncryptionStr.Substring(0, 16)); ;
+            }
+            else
+            {
+                inText = Encoding.Default.GetString(Convert.FromBase64String(nlb.decode(trimText)));
+                // 直接输出
+            }
+            return inText;
+        }
+    }
+    public class ini
     {
         // 声明INI文件的写操作函数 WritePrivateProfileString()
         [System.Runtime.InteropServices.DllImport("kernel32")]
@@ -140,7 +191,7 @@ namespace nlCoding
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
 
         private string sPath = null;
-        public iniFile(string path)
+        public ini(string path)
         {
             sPath = path;
         }
@@ -159,5 +210,48 @@ namespace nlCoding
         }
 
     }
+    public class aes
+    {
+        public static string encrypt(string str, string key)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return null;
+            }
 
+            byte[] toEncryptArray = Encoding.UTF8.GetBytes(str);
+
+            RijndaelManaged rm = new RijndaelManaged
+            {
+                Key = Encoding.UTF8.GetBytes(key),
+                Mode = CipherMode.ECB,
+                Padding = PaddingMode.PKCS7
+            };
+            ICryptoTransform cTransform = rm.CreateEncryptor();
+            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+
+            return Convert.ToBase64String(resultArray, 0, resultArray.Length);
+        }
+        public static string decrypt(string str, string key)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return null;
+            }
+
+            byte[] toEncryptArray = Convert.FromBase64String(str);
+
+            RijndaelManaged rm = new RijndaelManaged
+            {
+                Key = Encoding.UTF8.GetBytes(key),
+                Mode = CipherMode.ECB,
+                Padding = PaddingMode.PKCS7
+            };
+
+            ICryptoTransform cTransform = rm.CreateDecryptor();
+            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+
+            return Encoding.UTF8.GetString(resultArray);
+        }
+    }
 }

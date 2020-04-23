@@ -1,11 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Forms;
 using Clipboard = System.Windows.Forms.Clipboard;
-using DataFormats = System.Windows.Forms.DataFormats;
-using IDataObject = System.Windows.Forms.IDataObject;
 
 namespace nlCrypto
 {
@@ -14,72 +10,26 @@ namespace nlCrypto
 
         string privateKey;
         string publicKey;
-        int keyNum;
-
         public mainForm()
         {
             InitializeComponent();
         }
-
         private void enCode_Click(object sender, EventArgs e)
         {
-            MD5 md5 = MD5.Create();
-            string b64text;
-            if (useCrypto.Checked == true)
-            // 如果使用加密
+            ioText.Text=nlc.encode(ioText.Text, passwordText.Text, useCrypto.Checked, useLongWord.Checked);
+            if (useClipBoard.Checked==true) 
             {
-                byte[] encryptionBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(passwordText.Text));
-                string EncryptionStr = Convert.ToBase64String(encryptionBytes);
-                // 密码进行MD5之后取前十六位用于AES加密
-                b64text = AesClass.AesEncrypt(ioText.Text, EncryptionStr.Substring(0, 16));
-                // 密码和文本进行AES-ECB加密再进行BASE64
-            }
-            else
-            {
-                // 如果不使用加密
-                byte[] inArray = Encoding.Default.GetBytes(ioText.Text);
-                b64text = Convert.ToBase64String(inArray);
-                // 直接BASE64输入框文本
-            }
-
-            // 加密后的文本进行nlb64混淆
-            ioText.Text = nlCoding.nlBase64.NlbEncode(b64text, useLongWord.Checked);
-            // 放到剪辑版
-            if (useClipBoard.Checked == true)
-            {
-                Clipboard.SetDataObject(ioText.Text);
+                Clipboard.SetText(ioText.Text);
             }
         }
-
         private void deCode_Click(object sender, EventArgs e)
         {
-            MD5 md5 = MD5.Create();
-            // 去首尾空及换行
-            string trimText = ioText.Text.Trim();
-            trimText = trimText.Replace("\r", "");
-            trimText = trimText.Replace("\n", "");
-            // ioText.Text = nlBase64.nlbDecode(ioText.Text);
-            if (useCrypto.Checked == true)
-            // 如果使用解密
-            {
-                byte[] encryptionBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(passwordText.Text));
-                string EncryptionStr = Convert.ToBase64String(encryptionBytes);
-                // 密码进行MD5之后取前十六位用于AES解密
-                ioText.Text = AesClass.AesDecrypt(nlCoding.nlBase64.nlbDecode(trimText), EncryptionStr.Substring(0, 16)); ;
-            }
-            else
-            {
-                ioText.Text = Encoding.Default.GetString(Convert.FromBase64String(nlCoding.nlBase64.nlbDecode(trimText)));
-                // 直接输出
-            }
-
+            ioText.Text = nlc.decode(ioText.Text,passwordText.Text,useCrypto.Checked);
         }
-
         private void clear_Click(object sender, EventArgs e)
         {
             ioText.Text = "";
         }
-
         private void about_DoubleClick(object sender, EventArgs e)
         {
             string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
@@ -93,7 +43,6 @@ namespace nlCrypto
             }
 
         }
-
         private void mainForm_Load(object sender, EventArgs e)
         {
             string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
@@ -117,7 +66,6 @@ namespace nlCrypto
                 tempKeyDecode.Text = "解码对方的临时通讯密钥";
             }
         }
-
         private void mainForm_Activated(object sender, EventArgs e)
         {
             // 剪辑版处理
@@ -127,15 +75,13 @@ namespace nlCrypto
                 ioText.Text = (string)iData.GetData(DataFormats.Text);
             }
         }
-
         private void ptpAbout_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/muHua-usnnrqffjcqv/nlCrypto/wiki/Introduction-to-PTPSEC-and-how-to-use-it---%E5%AF%B9%E4%BA%8EPTPSEC%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95");
         }
-
         private void rsaKeyGen_Click(object sender, EventArgs e)
         {
-            rsaThings.KeyGen();
+            rsa.KeyGen();
             string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
             if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
             {
@@ -147,7 +93,6 @@ namespace nlCrypto
                 MessageBox.Show("After the generation is completed, the location is located in the program running directory, please back up to a safe location. And please send your public key to the contact you may need to encrypt the communication.");
             }
         }
-
         private void privateKeySel_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -161,7 +106,6 @@ namespace nlCrypto
                 openFileDialog.FileName = "";
             }
         }
-
         private void publicKeySel_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -175,7 +119,6 @@ namespace nlCrypto
                 openFileDialog.FileName = "";
             }
         }
-
         private void tempKeyGen_Click(object sender, EventArgs e)
         {
             if (publicKey == null || privateKey == null)
@@ -192,18 +135,15 @@ namespace nlCrypto
                 }
                 return;
             }
-            Random ran = new Random();
-            int encPwd = ran.Next();
-            StreamReader publicSr = new StreamReader(publicKey);
-            outputBox.Text = nlCoding.nlBase64.NlbEncode(rsaThings.encrypt(publicSr.ReadLine(), encPwd.ToString()), useLongWord.Checked);
+            nlPtpsec.nlTempKey nlTempKey;
+            nlTempKey = nlPtpsec.TempKeyGen(publicKey,useLongWord.Checked);
+            outputBox.Text = nlTempKey.output;
             if (useClipBoard.Checked == true)
             {
                 Clipboard.SetDataObject(outputBox.Text);
             }
-            passwordText.Text = encPwd.ToString();
-            keyNum = encPwd;
+            passwordText.Text = nlTempKey.encPwd.ToString();
         }
-
         private void tempKeyDecode_Click(object sender, EventArgs e)
         {
             if (publicKey == null || privateKey == null)
@@ -220,11 +160,10 @@ namespace nlCrypto
                 }
                 return;
             }
-            StreamReader privateSr = new StreamReader(privateKey);
-            string all = rsaThings.decrypt(privateSr.ReadLine(), nlCoding.nlBase64.nlbDecode(outputBox.Text));
-            keyNum = keyNum + Convert.ToInt32(all);
-            passwordText.Text = keyNum.ToString();
-            keyNum = 0;
+            nlPtpsec.nlTempKey nlTempKey;
+            nlTempKey.output = outputBox.Text;
+            nlTempKey.encPwd = Convert.ToInt32(passwordText.Text);
+            passwordText.Text = (nlPtpsec.nlTempKeyDecode(privateKey, nlTempKey).ToString());
         }
     }
 }
