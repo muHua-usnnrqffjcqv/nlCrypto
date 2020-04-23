@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Text;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 // 包含原NLB64和对称加密部份 
 // 使用前请将code.ini放置到%temp%\code.ini中
@@ -165,7 +165,7 @@ namespace nlCrypto
             trimText = trimText.Replace("\r", "");
             trimText = trimText.Replace("\n", "");
             // ioText.Text = nlBase64.nlbDecode(ioText.Text);
-            if (usingCrypto== true)
+            if (usingCrypto == true)
             // 如果使用解密
             {
                 byte[] encryptionBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(passwordText));

@@ -89,7 +89,7 @@
             this.about.Name = "about";
             this.about.Size = new System.Drawing.Size(83, 48);
             this.about.TabIndex = 18;
-            this.about.Text = "author: muhua\r\nver: latin5v1\r\nDouble click \r\nto see more";
+            this.about.Text = "author: muhua\r\nver: latin5v2\r\nDouble click \r\nto see more";
             this.about.DoubleClick += new System.EventHandler(this.about_DoubleClick);
             // 
             // passwordText
@@ -271,7 +271,7 @@
             this.MaximumSize = new System.Drawing.Size(450, 360);
             this.MinimumSize = new System.Drawing.Size(450, 360);
             this.Name = "mainForm";
-            this.Text = "nlCryptoLatin5v1";
+            this.Text = "nlCryptoLatin5v2";
             this.Activated += new System.EventHandler(this.mainForm_Activated);
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.tabControl.ResumeLayout(false);

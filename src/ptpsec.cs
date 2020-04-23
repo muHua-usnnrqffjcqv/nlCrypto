@@ -7,7 +7,8 @@ namespace nlCrypto
 {
     class ptpsec
     {
-        public struct TempKey {
+        public struct TempKey
+        {
             public string output;
             public int encPwd;
         }
@@ -39,7 +40,8 @@ namespace nlCrypto
             // 使用完请将tempKey.encPwd置0
         }
     }
-    class nlPtpsec{
+    class nlPtpsec
+    {
         public struct nlTempKey
         {
             public string output;
@@ -48,19 +50,19 @@ namespace nlCrypto
         public static nlTempKey TempKeyGen(string publicKeyWhere, bool usingLongword)
         {
             StreamReader publicSr = new StreamReader(publicKeyWhere);
-            ptpsec.TempKey tempKey= ptpsec.TempKeyGen(publicSr.ReadLine());
+            ptpsec.TempKey tempKey = ptpsec.TempKeyGen(publicSr.ReadLine());
             nlTempKey nlTempKey;
-            nlTempKey.output=nlb.encode(tempKey.output, usingLongword);
+            nlTempKey.output = nlb.encode(tempKey.output, usingLongword);
             nlTempKey.encPwd = tempKey.encPwd;
             return nlTempKey;
         }
-        public static int nlTempKeyDecode(string privateKeyWhere,nlTempKey nlTempKey)
+        public static int nlTempKeyDecode(string privateKeyWhere, nlTempKey nlTempKey)
         {
             StreamReader privateSr = new StreamReader(privateKeyWhere);
             ptpsec.TempKey tempKey;
             tempKey.output = nlb.decode(nlTempKey.output);
             tempKey.encPwd = nlTempKey.encPwd;
-            return ptpsec.TempKeyDecode(privateSr.ReadLine(),tempKey);
+            return ptpsec.TempKeyDecode(privateSr.ReadLine(), tempKey);
             // 使用完请讲tempkey.encpwd置0
         }
     }
@@ -69,11 +71,12 @@ namespace nlCrypto
         public static void KeyGen()
         {
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            using (StreamWriter writer = new StreamWriter("PrivateKey.xml"))  //这个文件要保密...
+            Directory.CreateDirectory(System.Environment.GetEnvironmentVariable("UserProfile") + "\\Keys");
+            using (StreamWriter writer = new StreamWriter(System.Environment.GetEnvironmentVariable("UserProfile") + "\\Keys\\PrivateKey.xml"))  //这个文件要保密...
             {
                 writer.WriteLine(rsa.ToXmlString(true));
             }
-            using (StreamWriter writer = new StreamWriter("PublicKey.xml"))
+            using (StreamWriter writer = new StreamWriter(System.Environment.GetEnvironmentVariable("UserProfile") + "\\Keys\\PublicKey.xml"))
             {
                 writer.WriteLine(rsa.ToXmlString(false));
             }

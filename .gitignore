@@ -8,7 +8,6 @@ src/bin/Debug/nlCrypto.exe.manifest
 src/bin/Debug/nlCrypto.pdb
 src/bin/Release/app.publish/nlCrypto.exe
 src/bin/Release/nlCrypto.application
-src/bin/Release/nlCrypto.exe
 src/bin/Release/nlCrypto.exe.config
 src/bin/Release/nlCrypto.exe.manifest
 src/bin/Release/nlCrypto.pdb
