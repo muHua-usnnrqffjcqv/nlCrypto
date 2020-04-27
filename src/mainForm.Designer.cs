@@ -85,7 +85,7 @@
             // about
             // 
             this.about.AutoSize = true;
-            this.about.Location = new System.Drawing.Point(284, 200);
+            this.about.Location = new System.Drawing.Point(283, 195);
             this.about.Name = "about";
             this.about.Size = new System.Drawing.Size(83, 48);
             this.about.TabIndex = 18;
@@ -194,6 +194,7 @@
             // 
             // tempKeyDecode
             // 
+            this.tempKeyDecode.Enabled = false;
             this.tempKeyDecode.Location = new System.Drawing.Point(41, 209);
             this.tempKeyDecode.Name = "tempKeyDecode";
             this.tempKeyDecode.Size = new System.Drawing.Size(223, 23);
