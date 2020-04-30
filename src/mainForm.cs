@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using Clipboard = System.Windows.Forms.Clipboard;
 
@@ -9,6 +11,11 @@ namespace nlCrypto
 
         string privateKey;
         string publicKey;
+        string nlbIni;
+        // 应用程序版本号
+        // 注：更改了这个还要改assemblyInfo和页面显示
+        string version="latin5v3";
+        string time = "2020/4/30";
         public mainForm()
         {
             InitializeComponent();
@@ -34,23 +41,57 @@ namespace nlCrypto
             string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
             if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
             {
-                MessageBox.Show("作者:慕华 版本:latin5v2 发布时间: 2020年4月23日 作者邮箱:usnnrqffjcqv@protonmail.com 许可证:GPLv3 源码在GitHub上发布 github.com/muHua-usnnrqffjcqv/nlCrypto");
+                MessageBox.Show("作者:慕华 版本:"+version+" 发布时间: "+time+" 作者邮箱:usnnrqffjcqv@protonmail.com 许可证:GPLv3 源码在GitHub上发布 github.com/muHua-usnnrqffjcqv/nlCrypto");
             }
             else
             {
-                MessageBox.Show("Author:Muhua Version:latin5v2 ReleaseTime:2020/4/23 AuthonE-mail:usnnrqffjcqv@protonmail.com License:GPLv3 The source code is published on github : github.com/muHua-usnnrqffjcqv/nlCrypto");
+                MessageBox.Show("Author:Muhua Version:" + version + " ReleaseTime:" + time + " AuthonE-mail:usnnrqffjcqv@protonmail.com License:GPLv3 The source code is published on github : github.com/muHua-usnnrqffjcqv/nlCrypto");
             }
 
         }
         private void mainForm_Load(object sender, EventArgs e)
         {
-            ini ini = new ini(System.Environment.GetEnvironmentVariable("APPDATA") + "\\nlCryptoSettings.ini");
-            privateKey = ini.ReadValue("key", "privateKey");
             string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+            ini ini = new ini(System.Environment.GetEnvironmentVariable("APPDATA") + "\\nlCryptoSettings.ini");
+            // info.FullName就是临时目录的字符串
+            string temp = System.Environment.GetEnvironmentVariable("TEMP");
+            DirectoryInfo info = new DirectoryInfo(temp);
+            string path = info.FullName;
+            // 如果是使用nlbIni
+            nlbIni = ini.ReadValue("ini", "nlbIni");
+            if (nlbIni!="")
+            {
+                // 写到文件
+                FileInfo fi1 = new FileInfo(nlbIni);
+                fi1.CopyTo(path + "\\code.ini",true);
+                // INIABOUT搞好
+                ini inib = new ini(nlbIni);
+                if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
+                {
+                    // 手动汉化，因为用resx汉化会出多个文件，不好发布
+                    iniAbout.Text = Encoding.Default.GetString(Convert.FromBase64String(inib.ReadValue("about", "chinese")));
+                }
+                else
+                { 
+                    iniAbout.Text = Encoding.Default.GetString(Convert.FromBase64String(inib.ReadValue("about", "english")));
+                }
+            }
+            // 如果不是使用nlbIni
+            else
+            {
+                // 从网上找的资源文件写到路径代码
+                File.WriteAllBytes(path + "\\code.ini", System.Text.Encoding.Default.GetBytes(Properties.Resources.code));
+                // 资源文件的code写到%temp%\code.ini
+                iniAbout.Text = "usingDefault";
+                nlbIni = "";
+            }
+            // 私钥
+            privateKey = ini.ReadValue("key", "privateKey");
+            // 汉化
             if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
             {
                 // 手动汉化，因为用resx汉化会出多个文件，不好发布
-                about.Text = "作者：慕华" + Environment.NewLine + "版本：latin5v2" + Environment.NewLine + "双击查看更多";
+                about.Text = "作者：慕华" + Environment.NewLine + "版本：" + version +Environment.NewLine +"双击查看更多";
                 enCode.Text = "编码";
                 deCode.Text = "解码";
                 clear.Text = "清空";
@@ -58,13 +99,15 @@ namespace nlCrypto
                 useCrypto.Text = "使用加密";
                 useLongWord.Text = "使用长表";
                 cryptoPage.Text = "加解密";
-                ptpSecPage.Text = "端对端加密";
+                otherPage.Text = "杂项";
                 ptpAbout.Text = "需要使用方法与介绍可以双击打开介绍页面";
                 rsaKeyGen.Text = "公私钥生成";
                 privateKeySel.Text = "选择您的私钥";
                 publicKeySel.Text = "选择您加密讨论对象的公钥";
                 tempKeyGen.Text = "临时通讯密钥生成";
                 tempKeyDecode.Text = "解码对方的临时通讯密钥";
+                iniSel.Text = "INI选择";
+                openIniHtm.Text = "INI网页";
             }
         }
         private void mainForm_Activated(object sender, EventArgs e)
@@ -179,6 +222,74 @@ namespace nlCrypto
             nlTempKey.encPwd = Convert.ToInt32(passwordText.Text);
             passwordText.Text = (nlPtpsec.nlTempKeyDecode(privateKey, nlTempKey).ToString());
             tempKeyDecode.Enabled = false;
+        }
+
+        private void iniSel_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.GetEnvironmentVariable("UserProfile") + "\\nlcIni";
+            openFileDialog.Filter = "nlBase64ini|*.ini";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.FilterIndex = 1;
+            string temp = System.Environment.GetEnvironmentVariable("TEMP");
+            DirectoryInfo info = new DirectoryInfo(temp);
+            string path = info.FullName;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                nlbIni = openFileDialog.FileName;
+                openFileDialog.FileName = "";
+                ini inia = new ini(System.Environment.GetEnvironmentVariable("APPDATA") + "\\nlCryptoSettings.ini");
+                inia.Writue("ini", "nlbIni", nlbIni);
+                ini inib = new ini(nlbIni);
+                string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+                // 写道文件
+                FileInfo fi1 = new FileInfo(nlbIni);
+                fi1.CopyTo(path + "\\code.ini", true);
+                // INIABOUT搞好
+                if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
+                {
+                    // 手动汉化，因为用resx汉化会出多个文件，不好发布
+                    iniAbout.Text = Encoding.Default.GetString(Convert.FromBase64String(inib.ReadValue("about","chinese")));
+                }
+                else
+                {
+                    iniAbout.Text = Encoding.Default.GetString(Convert.FromBase64String(inib.ReadValue("about", "english")));
+                }
+
+            }
+            // 清空nlbIni
+            else
+            {
+                // 从网上找的资源文件写到路径代码
+                File.WriteAllBytes(path + "\\code.ini", System.Text.Encoding.Default.GetBytes(Properties.Resources.code));
+                // 资源文件的code写到%temp%\code.ini
+                iniAbout.Text = "usingDefault";
+                nlbIni = "";
+                ini inia = new ini(Environment.GetEnvironmentVariable("APPDATA") + "\\nlCryptoSettings.ini");
+                inia.Writue("ini", "nlbIni", "");
+
+            }
+        }
+
+        private void openIniHtm_Click(object sender, EventArgs e)
+        {
+            ini ini = new ini(nlbIni);
+            // info.FullName就是临时目录的字符串
+            string temp = System.Environment.GetEnvironmentVariable("TEMP");
+            DirectoryInfo info = new DirectoryInfo(temp);
+            string path = info.FullName;
+            string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+            if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
+            {
+                // 手动汉化，因为用resx汉化会出多个文件，不好发布
+                File.WriteAllText(path+"\\iniHelp.html", Encoding.Default.GetString(Convert.FromBase64String(ini.ReadValue("htm", "chinese"))));
+                System.Diagnostics.Process.Start(path+"\\iniHelp.html");
+            }
+            else
+            {
+                File.WriteAllText(path + "\\iniHelp.html", Encoding.Default.GetString(Convert.FromBase64String(ini.ReadValue("htm", "english"))));
+                System.Diagnostics.Process.Start(path + "\\iniHelp.html");
+            }
         }
     }
 }

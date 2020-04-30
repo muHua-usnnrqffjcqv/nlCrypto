@@ -40,7 +40,7 @@
             this.deCode = new System.Windows.Forms.Button();
             this.enCode = new System.Windows.Forms.Button();
             this.ioText = new System.Windows.Forms.TextBox();
-            this.ptpSecPage = new System.Windows.Forms.TabPage();
+            this.otherPage = new System.Windows.Forms.TabPage();
             this.tempKeyDecode = new System.Windows.Forms.Button();
             this.outputBox = new System.Windows.Forms.TextBox();
             this.tempKeyGen = new System.Windows.Forms.Button();
@@ -48,15 +48,18 @@
             this.privateKeySel = new System.Windows.Forms.Button();
             this.rsaKeyGen = new System.Windows.Forms.Button();
             this.ptpAbout = new System.Windows.Forms.Label();
+            this.iniSel = new System.Windows.Forms.Button();
+            this.openIniHtm = new System.Windows.Forms.Button();
+            this.iniAbout = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.cryptoPage.SuspendLayout();
-            this.ptpSecPage.SuspendLayout();
+            this.otherPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.cryptoPage);
-            this.tabControl.Controls.Add(this.ptpSecPage);
+            this.tabControl.Controls.Add(this.otherPage);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -89,7 +92,7 @@
             this.about.Name = "about";
             this.about.Size = new System.Drawing.Size(83, 48);
             this.about.TabIndex = 18;
-            this.about.Text = "author: muhua\r\nver: latin5v2\r\nDouble click \r\nto see more";
+            this.about.Text = "author: muhua\r\nver: latin5v3\r\nDouble click \r\nto see more";
             this.about.DoubleClick += new System.EventHandler(this.about_DoubleClick);
             // 
             // passwordText
@@ -175,22 +178,25 @@
             this.ioText.Size = new System.Drawing.Size(256, 192);
             this.ioText.TabIndex = 10;
             // 
-            // ptpSecPage
+            // otherPage
             // 
-            this.ptpSecPage.Controls.Add(this.tempKeyDecode);
-            this.ptpSecPage.Controls.Add(this.outputBox);
-            this.ptpSecPage.Controls.Add(this.tempKeyGen);
-            this.ptpSecPage.Controls.Add(this.publicKeySel);
-            this.ptpSecPage.Controls.Add(this.privateKeySel);
-            this.ptpSecPage.Controls.Add(this.rsaKeyGen);
-            this.ptpSecPage.Controls.Add(this.ptpAbout);
-            this.ptpSecPage.Location = new System.Drawing.Point(4, 22);
-            this.ptpSecPage.Name = "ptpSecPage";
-            this.ptpSecPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ptpSecPage.Size = new System.Drawing.Size(392, 264);
-            this.ptpSecPage.TabIndex = 1;
-            this.ptpSecPage.Text = "ptpSec";
-            this.ptpSecPage.UseVisualStyleBackColor = true;
+            this.otherPage.Controls.Add(this.iniAbout);
+            this.otherPage.Controls.Add(this.openIniHtm);
+            this.otherPage.Controls.Add(this.iniSel);
+            this.otherPage.Controls.Add(this.tempKeyDecode);
+            this.otherPage.Controls.Add(this.outputBox);
+            this.otherPage.Controls.Add(this.tempKeyGen);
+            this.otherPage.Controls.Add(this.publicKeySel);
+            this.otherPage.Controls.Add(this.privateKeySel);
+            this.otherPage.Controls.Add(this.rsaKeyGen);
+            this.otherPage.Controls.Add(this.ptpAbout);
+            this.otherPage.Location = new System.Drawing.Point(4, 22);
+            this.otherPage.Name = "otherPage";
+            this.otherPage.Padding = new System.Windows.Forms.Padding(3);
+            this.otherPage.Size = new System.Drawing.Size(392, 264);
+            this.otherPage.TabIndex = 1;
+            this.otherPage.Text = "other";
+            this.otherPage.UseVisualStyleBackColor = true;
             // 
             // tempKeyDecode
             // 
@@ -261,6 +267,35 @@
     "on page";
             this.ptpAbout.DoubleClick += new System.EventHandler(this.ptpAbout_DoubleClick);
             // 
+            // iniSel
+            // 
+            this.iniSel.Location = new System.Drawing.Point(284, 180);
+            this.iniSel.Name = "iniSel";
+            this.iniSel.Size = new System.Drawing.Size(75, 23);
+            this.iniSel.TabIndex = 7;
+            this.iniSel.Text = "iniSel";
+            this.iniSel.UseVisualStyleBackColor = true;
+            this.iniSel.Click += new System.EventHandler(this.iniSel_Click);
+            // 
+            // openIniHtm
+            // 
+            this.openIniHtm.Location = new System.Drawing.Point(284, 209);
+            this.openIniHtm.Name = "openIniHtm";
+            this.openIniHtm.Size = new System.Drawing.Size(75, 23);
+            this.openIniHtm.TabIndex = 8;
+            this.openIniHtm.Text = "openIniHtm";
+            this.openIniHtm.UseVisualStyleBackColor = true;
+            this.openIniHtm.Click += new System.EventHandler(this.openIniHtm_Click);
+            // 
+            // iniAbout
+            // 
+            this.iniAbout.AutoSize = true;
+            this.iniAbout.Location = new System.Drawing.Point(282, 124);
+            this.iniAbout.Name = "iniAbout";
+            this.iniAbout.Size = new System.Drawing.Size(47, 12);
+            this.iniAbout.TabIndex = 10;
+            this.iniAbout.Text = "nothing";
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -272,14 +307,14 @@
             this.MaximumSize = new System.Drawing.Size(450, 360);
             this.MinimumSize = new System.Drawing.Size(450, 360);
             this.Name = "mainForm";
-            this.Text = "nlCryptoLatin5v2";
+            this.Text = "nlCryptoLatin5v3";
             this.Activated += new System.EventHandler(this.mainForm_Activated);
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.tabControl.ResumeLayout(false);
             this.cryptoPage.ResumeLayout(false);
             this.cryptoPage.PerformLayout();
-            this.ptpSecPage.ResumeLayout(false);
-            this.ptpSecPage.PerformLayout();
+            this.otherPage.ResumeLayout(false);
+            this.otherPage.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -297,7 +332,7 @@
         private System.Windows.Forms.Button deCode;
         private System.Windows.Forms.Button enCode;
         private System.Windows.Forms.TextBox ioText;
-        private System.Windows.Forms.TabPage ptpSecPage;
+        private System.Windows.Forms.TabPage otherPage;
         private System.Windows.Forms.Label ptpAbout;
         private System.Windows.Forms.Button rsaKeyGen;
         private System.Windows.Forms.Button publicKeySel;
@@ -305,6 +340,9 @@
         private System.Windows.Forms.Button tempKeyGen;
         private System.Windows.Forms.Button tempKeyDecode;
         private System.Windows.Forms.TextBox outputBox;
+        private System.Windows.Forms.Button iniSel;
+        private System.Windows.Forms.Label iniAbout;
+        private System.Windows.Forms.Button openIniHtm;
     }
 }
 
