@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="marsCode.cs" />
     <Compile Include="ptpsec.cs" />
     <Compile Include="nlb.cs" />
     <Compile Include="mainForm.cs">

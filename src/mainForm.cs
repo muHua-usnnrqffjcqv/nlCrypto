@@ -14,8 +14,8 @@ namespace nlCrypto
         string nlbIni;
         // 应用程序版本号
         // 注：更改了这个还要改assemblyInfo和页面显示
-        string version="latin5v3";
-        string time = "2020/4/30";
+        string version = "latin6v1";
+        string time = "2020/5/4";
         public mainForm()
         {
             InitializeComponent();
@@ -41,7 +41,7 @@ namespace nlCrypto
             string tempString = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
             if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
             {
-                MessageBox.Show("作者:慕华 版本:"+version+" 发布时间: "+time+" 作者邮箱:usnnrqffjcqv@protonmail.com 许可证:GPLv3 源码在GitHub上发布 github.com/muHua-usnnrqffjcqv/nlCrypto");
+                MessageBox.Show("作者:慕华 版本:" + version + " 发布时间: " + time + " 作者邮箱:usnnrqffjcqv@protonmail.com 许可证:GPLv3 源码在GitHub上发布 github.com/muHua-usnnrqffjcqv/nlCrypto");
             }
             else
             {
@@ -59,11 +59,11 @@ namespace nlCrypto
             string path = info.FullName;
             // 如果是使用nlbIni
             nlbIni = ini.ReadValue("ini", "nlbIni");
-            if (nlbIni!="")
+            if (nlbIni != "")
             {
                 // 写到文件
                 FileInfo fi1 = new FileInfo(nlbIni);
-                fi1.CopyTo(path + "\\code.ini",true);
+                fi1.CopyTo(path + "\\code.ini", true);
                 // INIABOUT搞好
                 ini inib = new ini(nlbIni);
                 if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
@@ -72,7 +72,7 @@ namespace nlCrypto
                     iniAbout.Text = Encoding.Default.GetString(Convert.FromBase64String(inib.ReadValue("about", "chinese")));
                 }
                 else
-                { 
+                {
                     iniAbout.Text = Encoding.Default.GetString(Convert.FromBase64String(inib.ReadValue("about", "english")));
                 }
             }
@@ -91,7 +91,7 @@ namespace nlCrypto
             if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
             {
                 // 手动汉化，因为用resx汉化会出多个文件，不好发布
-                about.Text = "作者：慕华" + Environment.NewLine + "版本：" + version +Environment.NewLine +"双击查看更多";
+                about.Text = "作者：慕华" + Environment.NewLine + "版本：" + version + Environment.NewLine + "双击查看更多";
                 enCode.Text = "编码";
                 deCode.Text = "解码";
                 clear.Text = "清空";
@@ -108,6 +108,11 @@ namespace nlCrypto
                 tempKeyDecode.Text = "解码对方的临时通讯密钥";
                 iniSel.Text = "INI选择";
                 openIniHtm.Text = "INI网页";
+                marsClear.Text = "清空";
+                marsDec.Text = "解码";
+                marsEnc.Text = "编码";
+                marsLabel.Text = "算法来自手机软件《火星密文》" + "\r\n" + "并使用GPLv3发布到Github" + "\r\n" + "如有侵权请联系作者邮箱";
+                marsPage.Text = "火星密文";
             }
         }
         private void mainForm_Activated(object sender, EventArgs e)
@@ -249,7 +254,7 @@ namespace nlCrypto
                 if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
                 {
                     // 手动汉化，因为用resx汉化会出多个文件，不好发布
-                    iniAbout.Text = Encoding.Default.GetString(Convert.FromBase64String(inib.ReadValue("about","chinese")));
+                    iniAbout.Text = Encoding.Default.GetString(Convert.FromBase64String(inib.ReadValue("about", "chinese")));
                 }
                 else
                 {
@@ -282,14 +287,31 @@ namespace nlCrypto
             if (tempString == "zh" || tempString == "zh-CN" || tempString == "zh-MO" || tempString == "zh-Hans" || tempString == "zh-SG" || tempString == "zh-Hans" || tempString == "zh-Hant" || tempString == "zh-TW")
             {
                 // 手动汉化，因为用resx汉化会出多个文件，不好发布
-                File.WriteAllText(path+"\\iniHelp.html", Encoding.Default.GetString(Convert.FromBase64String(ini.ReadValue("htm", "chinese"))));
-                System.Diagnostics.Process.Start(path+"\\iniHelp.html");
+                File.WriteAllText(path + "\\iniHelp.html", Encoding.Default.GetString(Convert.FromBase64String(ini.ReadValue("htm", "chinese"))));
+                System.Diagnostics.Process.Start(path + "\\iniHelp.html");
             }
             else
             {
                 File.WriteAllText(path + "\\iniHelp.html", Encoding.Default.GetString(Convert.FromBase64String(ini.ReadValue("htm", "english"))));
                 System.Diagnostics.Process.Start(path + "\\iniHelp.html");
             }
+        }
+
+        private void marsClear_Click(object sender, EventArgs e)
+        {
+            marsIo.Text = "";
+        }
+
+        private void marsDec_Click(object sender, EventArgs e)
+        {
+            marsCode marsCode = new marsCode(marsPwd.Text);
+            marsIo.Text = marsCode.dec(marsIo.Text);
+        }
+
+        private void marsEnc_Click(object sender, EventArgs e)
+        {
+            marsCode marsCode = new marsCode(marsPwd.Text);
+            marsIo.Text = marsCode.enc(marsIo.Text);
         }
     }
 }

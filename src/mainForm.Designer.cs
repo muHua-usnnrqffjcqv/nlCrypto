@@ -41,6 +41,9 @@
             this.enCode = new System.Windows.Forms.Button();
             this.ioText = new System.Windows.Forms.TextBox();
             this.otherPage = new System.Windows.Forms.TabPage();
+            this.iniAbout = new System.Windows.Forms.Label();
+            this.openIniHtm = new System.Windows.Forms.Button();
+            this.iniSel = new System.Windows.Forms.Button();
             this.tempKeyDecode = new System.Windows.Forms.Button();
             this.outputBox = new System.Windows.Forms.TextBox();
             this.tempKeyGen = new System.Windows.Forms.Button();
@@ -48,17 +51,23 @@
             this.privateKeySel = new System.Windows.Forms.Button();
             this.rsaKeyGen = new System.Windows.Forms.Button();
             this.ptpAbout = new System.Windows.Forms.Label();
-            this.iniSel = new System.Windows.Forms.Button();
-            this.openIniHtm = new System.Windows.Forms.Button();
-            this.iniAbout = new System.Windows.Forms.Label();
+            this.marsPage = new System.Windows.Forms.TabPage();
+            this.marsPwd = new System.Windows.Forms.TextBox();
+            this.marsClear = new System.Windows.Forms.Button();
+            this.marsDec = new System.Windows.Forms.Button();
+            this.marsEnc = new System.Windows.Forms.Button();
+            this.marsIo = new System.Windows.Forms.TextBox();
+            this.marsLabel = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.cryptoPage.SuspendLayout();
             this.otherPage.SuspendLayout();
+            this.marsPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.cryptoPage);
+            this.tabControl.Controls.Add(this.marsPage);
             this.tabControl.Controls.Add(this.otherPage);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
@@ -92,7 +101,7 @@
             this.about.Name = "about";
             this.about.Size = new System.Drawing.Size(83, 48);
             this.about.TabIndex = 18;
-            this.about.Text = "author: muhua\r\nver: latin5v3\r\nDouble click \r\nto see more";
+            this.about.Text = "author: muhua\r\nver: latin6v1\r\nDouble click \r\nto see more";
             this.about.DoubleClick += new System.EventHandler(this.about_DoubleClick);
             // 
             // passwordText
@@ -198,6 +207,35 @@
             this.otherPage.Text = "other";
             this.otherPage.UseVisualStyleBackColor = true;
             // 
+            // iniAbout
+            // 
+            this.iniAbout.AutoSize = true;
+            this.iniAbout.Location = new System.Drawing.Point(282, 124);
+            this.iniAbout.Name = "iniAbout";
+            this.iniAbout.Size = new System.Drawing.Size(47, 12);
+            this.iniAbout.TabIndex = 10;
+            this.iniAbout.Text = "nothing";
+            // 
+            // openIniHtm
+            // 
+            this.openIniHtm.Location = new System.Drawing.Point(284, 209);
+            this.openIniHtm.Name = "openIniHtm";
+            this.openIniHtm.Size = new System.Drawing.Size(75, 23);
+            this.openIniHtm.TabIndex = 8;
+            this.openIniHtm.Text = "openIniHtm";
+            this.openIniHtm.UseVisualStyleBackColor = true;
+            this.openIniHtm.Click += new System.EventHandler(this.openIniHtm_Click);
+            // 
+            // iniSel
+            // 
+            this.iniSel.Location = new System.Drawing.Point(284, 180);
+            this.iniSel.Name = "iniSel";
+            this.iniSel.Size = new System.Drawing.Size(75, 23);
+            this.iniSel.TabIndex = 7;
+            this.iniSel.Text = "iniSel";
+            this.iniSel.UseVisualStyleBackColor = true;
+            this.iniSel.Click += new System.EventHandler(this.iniSel_Click);
+            // 
             // tempKeyDecode
             // 
             this.tempKeyDecode.Enabled = false;
@@ -267,34 +305,77 @@
     "on page";
             this.ptpAbout.DoubleClick += new System.EventHandler(this.ptpAbout_DoubleClick);
             // 
-            // iniSel
+            // marsPage
             // 
-            this.iniSel.Location = new System.Drawing.Point(284, 180);
-            this.iniSel.Name = "iniSel";
-            this.iniSel.Size = new System.Drawing.Size(75, 23);
-            this.iniSel.TabIndex = 7;
-            this.iniSel.Text = "iniSel";
-            this.iniSel.UseVisualStyleBackColor = true;
-            this.iniSel.Click += new System.EventHandler(this.iniSel_Click);
+            this.marsPage.Controls.Add(this.marsLabel);
+            this.marsPage.Controls.Add(this.marsPwd);
+            this.marsPage.Controls.Add(this.marsClear);
+            this.marsPage.Controls.Add(this.marsDec);
+            this.marsPage.Controls.Add(this.marsEnc);
+            this.marsPage.Controls.Add(this.marsIo);
+            this.marsPage.Location = new System.Drawing.Point(4, 22);
+            this.marsPage.Name = "marsPage";
+            this.marsPage.Padding = new System.Windows.Forms.Padding(3);
+            this.marsPage.Size = new System.Drawing.Size(392, 264);
+            this.marsPage.TabIndex = 2;
+            this.marsPage.Text = "marsCode";
+            this.marsPage.UseVisualStyleBackColor = true;
             // 
-            // openIniHtm
+            // marsPwd
             // 
-            this.openIniHtm.Location = new System.Drawing.Point(284, 209);
-            this.openIniHtm.Name = "openIniHtm";
-            this.openIniHtm.Size = new System.Drawing.Size(75, 23);
-            this.openIniHtm.TabIndex = 8;
-            this.openIniHtm.Text = "openIniHtm";
-            this.openIniHtm.UseVisualStyleBackColor = true;
-            this.openIniHtm.Click += new System.EventHandler(this.openIniHtm_Click);
+            this.marsPwd.Location = new System.Drawing.Point(282, 136);
+            this.marsPwd.Multiline = true;
+            this.marsPwd.Name = "marsPwd";
+            this.marsPwd.Size = new System.Drawing.Size(80, 72);
+            this.marsPwd.TabIndex = 23;
             // 
-            // iniAbout
+            // marsClear
             // 
-            this.iniAbout.AutoSize = true;
-            this.iniAbout.Location = new System.Drawing.Point(282, 124);
-            this.iniAbout.Name = "iniAbout";
-            this.iniAbout.Size = new System.Drawing.Size(47, 12);
-            this.iniAbout.TabIndex = 10;
-            this.iniAbout.Text = "nothing";
+            this.marsClear.Location = new System.Drawing.Point(282, 98);
+            this.marsClear.Name = "marsClear";
+            this.marsClear.Size = new System.Drawing.Size(80, 32);
+            this.marsClear.TabIndex = 22;
+            this.marsClear.Text = "clear";
+            this.marsClear.UseVisualStyleBackColor = true;
+            this.marsClear.Click += new System.EventHandler(this.marsClear_Click);
+            // 
+            // marsDec
+            // 
+            this.marsDec.Location = new System.Drawing.Point(282, 58);
+            this.marsDec.Name = "marsDec";
+            this.marsDec.Size = new System.Drawing.Size(80, 32);
+            this.marsDec.TabIndex = 21;
+            this.marsDec.Text = "deCode";
+            this.marsDec.UseVisualStyleBackColor = true;
+            this.marsDec.Click += new System.EventHandler(this.marsDec_Click);
+            // 
+            // marsEnc
+            // 
+            this.marsEnc.Location = new System.Drawing.Point(282, 18);
+            this.marsEnc.Name = "marsEnc";
+            this.marsEnc.Size = new System.Drawing.Size(80, 32);
+            this.marsEnc.TabIndex = 20;
+            this.marsEnc.Text = "enCode";
+            this.marsEnc.UseVisualStyleBackColor = true;
+            this.marsEnc.Click += new System.EventHandler(this.marsEnc_Click);
+            // 
+            // marsIo
+            // 
+            this.marsIo.Location = new System.Drawing.Point(18, 18);
+            this.marsIo.Multiline = true;
+            this.marsIo.Name = "marsIo";
+            this.marsIo.Size = new System.Drawing.Size(256, 190);
+            this.marsIo.TabIndex = 19;
+            // 
+            // marsLabel
+            // 
+            this.marsLabel.AutoSize = true;
+            this.marsLabel.Location = new System.Drawing.Point(15, 211);
+            this.marsLabel.Name = "marsLabel";
+            this.marsLabel.Size = new System.Drawing.Size(365, 36);
+            this.marsLabel.TabIndex = 24;
+            this.marsLabel.Text = "The algorithm comes from the mobile software Mars ciphertext\r\n and is released in" +
+    " GPLv3. If there is any infringement,\r\n please contact the author\'s email";
             // 
             // mainForm
             // 
@@ -307,7 +388,7 @@
             this.MaximumSize = new System.Drawing.Size(450, 360);
             this.MinimumSize = new System.Drawing.Size(450, 360);
             this.Name = "mainForm";
-            this.Text = "nlCryptoLatin5v3";
+            this.Text = "nlCryptoLatin6v1";
             this.Activated += new System.EventHandler(this.mainForm_Activated);
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.tabControl.ResumeLayout(false);
@@ -315,6 +396,8 @@
             this.cryptoPage.PerformLayout();
             this.otherPage.ResumeLayout(false);
             this.otherPage.PerformLayout();
+            this.marsPage.ResumeLayout(false);
+            this.marsPage.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -343,6 +426,13 @@
         private System.Windows.Forms.Button iniSel;
         private System.Windows.Forms.Label iniAbout;
         private System.Windows.Forms.Button openIniHtm;
+        private System.Windows.Forms.TabPage marsPage;
+        private System.Windows.Forms.Label marsLabel;
+        private System.Windows.Forms.TextBox marsPwd;
+        private System.Windows.Forms.Button marsClear;
+        private System.Windows.Forms.Button marsDec;
+        private System.Windows.Forms.Button marsEnc;
+        private System.Windows.Forms.TextBox marsIo;
     }
 }
 
